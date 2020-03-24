@@ -149,7 +149,7 @@ TEST(Matrix, Inverse) {
   for (size_t i = 0; i < m.Rows(); ++i) {
     for (size_t j = 0; j < m.Rows(); ++j) {
       m[i][j] = 1 + (i*j)%7;
-    }   
+    }
   }
 
   Matrix<double> I(5, 5);
