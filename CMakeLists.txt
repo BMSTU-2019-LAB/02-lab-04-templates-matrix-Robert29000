@@ -34,7 +34,7 @@ add_executable(tests
         ${CMAKE_CURRENT_SOURCE_DIR}/include/matrix.hpp
         )
 
-add_executable(main
+add_executable(lab4
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
         )
 
