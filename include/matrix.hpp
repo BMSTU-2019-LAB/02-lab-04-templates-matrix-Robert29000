@@ -11,6 +11,7 @@ class Matrix{
  T **p;
  int rows, cols;
 public:
+ ~Matrix();
  Matrix(int rows, int cols);
  Matrix(const Matrix& copy);
  Matrix Inverse();
@@ -24,6 +25,14 @@ public:
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
 };
+
+template<class T>
+Matrix<T>::~Matrix(){
+    for(int i = 0; i < rows; i++){
+        free(p[i]);
+    }
+    free(p);
+}
 
 template<class T>
 int Matrix<T>::Rows() const {
