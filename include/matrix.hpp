@@ -28,7 +28,7 @@ public:
 
 template<class T>
 Matrix<T>::~Matrix(){
-    for(int i = 0; i < rows; i++){
+    for (int i = 0; i < rows; i++){
         free(p[i]);
     }
     free(p);
