@@ -21,7 +21,7 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- frined bool operator ==(const Matrix &m1, const Matrix &m2);
+ friend bool operator ==(const Matrix &m1, const Matrix &m2);
  T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
