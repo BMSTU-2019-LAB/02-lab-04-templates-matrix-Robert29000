@@ -21,7 +21,7 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- bool operator ==(Matrix &m2);
+ frined bool operator ==(const Matrix &m1, const Matrix &m2);
  T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
@@ -194,10 +194,10 @@ Matrix<T> Matrix<T>::Inverse(){
 }
 
 template<class T>
-bool Matrix<T>::operator==(Matrix<T> &m2){
- for (int i = 0; i < rows; i++){
-  for (int j = 0; j < cols; j++){
-   if (p[i][j] != m2[i][j]){
+bool operator==(const Matrix<T> &m1, const Matrix<T> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (m1[i][j] != m2[i][j]){
     return false;
    }
   }
