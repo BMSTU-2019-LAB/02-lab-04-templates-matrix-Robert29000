@@ -1,4 +1,4 @@
-// Copyright 2020 Robert
+//Copyright 2020 Robert
 
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
@@ -21,7 +21,8 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- T* operator [](int i) const;
+ bool operator ==(Matrix &m2);
+ T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
 };
@@ -71,7 +72,7 @@ Matrix<T>::Matrix(const Matrix& copy){
 }
 
 template<class T>
-T* Matrix<T>::operator [](int i) const{
+T* Matrix<T>::operator [](size_t i) const{
  return p[i];
 }
 
@@ -191,4 +192,17 @@ Matrix<T> Matrix<T>::Inverse(){
  }
  return invT;
 }
+
+template<class T>
+bool Matrix<T>::operator==(Matrix<T> &m2){
+ for (int i = 0; i < rows; i++){
+  for (int j = 0; j < cols; j++){
+   if (p[i][j] != m2[i][j]){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
 #endif // INCLUDE_MATRIX_HPP_
