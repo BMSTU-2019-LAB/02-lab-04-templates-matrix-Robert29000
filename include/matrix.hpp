@@ -21,7 +21,8 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- friend bool operator ==(const Matrix &m1, const Matrix &m2);
+ friend bool operator ==(const Matrix<T> &m1, const Matrix<T> &m2);
+ friend bool operator !=(const Matrix<T> &m1, const Matrix<T> &m2);
  T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
@@ -203,6 +204,11 @@ bool operator==(const Matrix<T> &m1, const Matrix<T> &m2){
   }
  }
  return true;
+}
+
+template<class T>
+bool operator!=(const Matrix<T> &m1, const Matrix<T> &m2){
+ return !(m1 == m2);
 }
 
 #endif // INCLUDE_MATRIX_HPP_
