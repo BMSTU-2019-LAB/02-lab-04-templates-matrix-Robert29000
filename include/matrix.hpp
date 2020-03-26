@@ -100,7 +100,7 @@ Matrix<T> Matrix<T>::operator +(Matrix& m2){
  Matrix<T> res(rows, cols);
  for (int i = 0; i < rows ; i++){
   for (int j = 0 ; j < cols; j++){
-   res[i][j] = res[i][j] + m2[i][j];
+   res[i][j] = p[i][j] + m2[i][j];
   }
  }
  return res;
@@ -115,7 +115,7 @@ Matrix<T> Matrix<T>::operator -(Matrix& m2){
  Matrix<T> res(rows, cols);
  for (int i = 0; i < rows ; i++){
   for (int j = 0 ; j < cols; j++){
-   res[i][j] = (*this)[i][j] - m2[i][j];
+   res[i][j] = p[i][j] - m2[i][j];
   }
  }
  return res;
