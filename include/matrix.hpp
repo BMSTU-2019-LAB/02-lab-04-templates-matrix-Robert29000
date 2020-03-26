@@ -21,8 +21,10 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- friend bool operator ==(const Matrix<T> &m1, const Matrix<T> &m2);
- friend bool operator !=(const Matrix<T> &m1, const Matrix<T> &m2);
+ template<class V>
+ friend bool operator ==(const Matrix<V> &m1, const Matrix<V> &m2);
+ template<class V>
+ friend bool operator !=(const Matrix<V> &m1, const Matrix<V> &m2);
  T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
