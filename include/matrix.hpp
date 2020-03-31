@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <type_traits>
+#include <limits>
 
 template<class T>
 class Matrix{
