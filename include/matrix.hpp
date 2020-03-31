@@ -5,11 +5,13 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <type_traits>
 
 template<class T>
 class Matrix{
  T **p;
  int rows, cols;
+ static_assert(std::is_arithmetic<T>::value, "Non arithmetic type");
 public:
  ~Matrix();
  Matrix(int rows, int cols);
@@ -115,7 +117,7 @@ Matrix<T> Matrix<T>::operator -(Matrix& m2){
  Matrix<T> res(rows, cols);
  for (int i = 0; i < rows ; i++){
   for (int j = 0 ; j < cols; j++){
-   res[i][j] = p[i][j] - m2[i][j];
+   res[i][j] = (*this)[i][j] - m2[i][j];
   }
  }
  return res;
@@ -201,6 +203,30 @@ bool operator==(const Matrix<T> &m1, const Matrix<T> &m2){
  for (int i = 0; i < m1.Rows(); i++){
   for (int j = 0; j < m1.Cols(); j++){
    if (m1[i][j] != m2[i][j]){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
+template<>
+bool operator==(const Matrix<double> &m1, const Matrix<double> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<double>::epsilon()){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
+template<>
+bool operator==(const Matrix<float> &m1, const Matrix<float> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<float>::epsilon()){
     return false;
    }
   }
