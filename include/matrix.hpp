@@ -53,7 +53,7 @@ int Matrix<T>::Cols() const {
 
 template<class T>
 Matrix<T>::Matrix(int rows, int cols){
- this -> p = new *T[rows];
+ this -> p = new T*[rows];
  this -> rows = rows;
  this -> cols = cols;
  for (int i = 0 ; i < rows ; i++){
@@ -68,7 +68,7 @@ template<class T>
 Matrix<T>::Matrix(const Matrix& copy){
  cols = copy.Cols();
  rows = copy.Rows();
- this -> p = new *T[rows];
+ this -> p = new T*[rows];
  for (int i = 0 ; i < copy.Rows() ; i++){
   p[i] = new T[cols];
   for (int j = 0 ; j < copy.Cols() ; j++){
