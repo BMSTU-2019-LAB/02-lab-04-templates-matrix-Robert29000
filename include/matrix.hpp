@@ -1,15 +1,18 @@
-// Copyright 2020 Robert
+//Copyright 2020 Robert
 
 #ifndef INCLUDE_MATRIX_HPP_
 #define INCLUDE_MATRIX_HPP_
 
 #include <stdio.h>
 #include <math.h>
+#include <type_traits>
+#include <limits>
 
 template<class T>
 class Matrix{
  T **p;
  int rows, cols;
+ static_assert(std::is_arithmetic<T>::value, "Non arithmetic type");
 public:
  ~Matrix();
  Matrix(int rows, int cols);
@@ -21,14 +24,18 @@ public:
  Matrix operator +(Matrix &m2);
  Matrix operator -(Matrix &m2);
  Matrix operator *(Matrix &m2);
- T* operator [](int i) const;
+ template<class V>
+ friend bool operator ==(const Matrix<V> &m1, const Matrix<V> &m2);
+ template<class V>
+ friend bool operator !=(const Matrix<V> &m1, const Matrix<V> &m2);
+ T* operator [](size_t i) const;
  double determinant(Matrix mat);
  Matrix deleteRowsAndCols(Matrix mat, int nRow, int nCol);
 };
 
 template<class T>
 Matrix<T>::~Matrix(){
-    for(int i = 0; i < rows; i++){
+    for (int i = 0; i < rows; i++){
         free(p[i]);
     }
     free(p);
@@ -71,7 +78,7 @@ Matrix<T>::Matrix(const Matrix& copy){
 }
 
 template<class T>
-T* Matrix<T>::operator [](int i) const{
+T* Matrix<T>::operator [](size_t i) const{
  return p[i];
 }
 
@@ -96,7 +103,7 @@ Matrix<T> Matrix<T>::operator +(Matrix& m2){
  Matrix<T> res(rows, cols);
  for (int i = 0; i < rows ; i++){
   for (int j = 0 ; j < cols; j++){
-   res[i][j] = res[i][j] + m2[i][j];
+   res[i][j] = p[i][j] + m2[i][j];
   }
  }
  return res;
@@ -191,4 +198,46 @@ Matrix<T> Matrix<T>::Inverse(){
  }
  return invT;
 }
+
+template<class T>
+bool operator==(const Matrix<T> &m1, const Matrix<T> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (m1[i][j] != m2[i][j]){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
+template<>
+bool operator==(const Matrix<double> &m1, const Matrix<double> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<double>::epsilon()){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
+template<>
+bool operator==(const Matrix<float> &m1, const Matrix<float> &m2){
+ for (int i = 0; i < m1.Rows(); i++){
+  for (int j = 0; j < m1.Cols(); j++){
+   if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<float>::epsilon()){
+    return false;
+   }
+  }
+ }
+ return true;
+}
+
+template<class T>
+bool operator!=(const Matrix<T> &m1, const Matrix<T> &m2){
+ return !(m1 == m2);
+}
+
 #endif // INCLUDE_MATRIX_HPP_
