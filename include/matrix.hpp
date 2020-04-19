@@ -36,9 +36,9 @@ public:
 template<class T>
 Matrix<T>::~Matrix(){
     for (int i = 0; i < rows; i++){
-        free(p[i]);
+        delete[] p[i];
     }
-    free(p);
+    delete[] p;
 }
 
 template<class T>
@@ -53,11 +53,11 @@ int Matrix<T>::Cols() const {
 
 template<class T>
 Matrix<T>::Matrix(int rows, int cols){
- this -> p = reinterpret_cast<T**>(malloc(rows * sizeof(T *)));
+ this -> p = new *T[rows];
  this -> rows = rows;
  this -> cols = cols;
  for (int i = 0 ; i < rows ; i++){
-  p[i] = reinterpret_cast<T*>(malloc(cols * sizeof(T)));
+  p[i] = new T[cols];
   for (int j = 0 ; j < cols ; j++){
    p[i][j] = 0;
   }
@@ -68,9 +68,9 @@ template<class T>
 Matrix<T>::Matrix(const Matrix& copy){
  cols = copy.Cols();
  rows = copy.Rows();
- this -> p = reinterpret_cast<T**>(malloc(rows * sizeof(T*)));
+ this -> p = new *T[rows];
  for (int i = 0 ; i < copy.Rows() ; i++){
-  p[i] = reinterpret_cast<T*>(malloc(cols * sizeof(T)));
+  p[i] = new T[cols];
   for (int j = 0 ; j < copy.Cols() ; j++){
    p[i][j] = copy[i][j];
   }
@@ -201,26 +201,25 @@ Matrix<T> Matrix<T>::Inverse(){
 
 template<class T>
 bool operator==(const Matrix<T> &m1, const Matrix<T> &m2){
- for (int i = 0; i < m1.Rows(); i++){
-  for (int j = 0; j < m1.Cols(); j++){
-   if (m1[i][j] != m2[i][j]){
-    return false;
+ if (std::is_floating_point<T>::value){
+  for (int i = 0; i < m1.Rows(); i++){
+   for (int j = 0; j < m1.Cols(); j++){
+    if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<double>::epsilon()){
+     return false;
+    }
    }
   }
- }
- return true;
-}
-
-template<>
-bool operator==(const Matrix<double> &m1, const Matrix<double> &m2){
- for (int i = 0; i < m1.Rows(); i++){
-  for (int j = 0; j < m1.Cols(); j++){
-   if (abs(m1[i][j] - m2[i][j]) > std::numeric_limits<double>::epsilon()){
-    return false;
+  return true;
+ }else {
+  for (int i = 0; i < m1.Rows(); i++){
+   for (int j = 0; j < m1.Cols(); j++){
+    if (m1[i][j] != m2[i][j]){
+     return false;
+    }
    }
   }
+  return true;
  }
- return true;
 }
 
 template<>
