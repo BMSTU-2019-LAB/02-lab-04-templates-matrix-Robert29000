@@ -45,8 +45,8 @@ TEST(Matrix, Add) {
     Matrix<int> s2 = c + c;
     EXPECT_EQ(s2, s);
 
-    ASSERT_EQ(s.get_rows(), 2);
-    ASSERT_EQ(s.get_columns(), 3);
+    ASSERT_EQ(s.Rows(), 2);
+    ASSERT_EQ(s.Cols(), 3);
     EXPECT_EQ(s[0][0], 2);
     EXPECT_EQ(s[0][1], 4);
     EXPECT_EQ(s[1][0], 6);
@@ -62,8 +62,8 @@ TEST(Matrix, AddEmpty) {
 
     Matrix<float> s = m + c;
 
-    EXPECT_EQ(s.get_rows(), 0);
-    EXPECT_EQ(s.get_columns(), 0);
+    EXPECT_EQ(s.Rows(), 0);
+    EXPECT_EQ(s.Cols(), 0);
 }
 
 TEST(Matrix, Sub) {
@@ -76,8 +76,8 @@ TEST(Matrix, Sub) {
     auto c = m;
     auto s = m - c;
 
-    ASSERT_EQ(s.get_rows(), 2);
-    ASSERT_EQ(s.get_columns(), 2);
+    ASSERT_EQ(s.Rows(), 2);
+    ASSERT_EQ(s.Cols(), 2);
     EXPECT_EQ(s[0][0], 0);
     EXPECT_EQ(s[0][1], 0);
     EXPECT_EQ(s[1][0], 0);
@@ -91,8 +91,8 @@ TEST(Matrix, SubEmpty) {
 
     auto s = m - c;
 
-    EXPECT_EQ(s.get_rows(), 0);
-    EXPECT_EQ(s.get_columns(), 0);
+    EXPECT_EQ(s.Rows(), 0);
+    EXPECT_EQ(s.Cols(), 0);
 }
 
 TEST(Matrix, Mult) {
@@ -123,8 +123,8 @@ TEST(Matrix, Mult) {
     c[1][1] = 1;
     auto s = m * c;
 
-    ASSERT_EQ(s.get_rows(), 3);
-    ASSERT_EQ(s.get_columns(), 2);
+    ASSERT_EQ(s.Rows(), 3);
+    ASSERT_EQ(s.Cols(), 2);
     /*
     2 0
     2 2
@@ -138,22 +138,22 @@ TEST(Matrix, Mult) {
     EXPECT_EQ(s[2][1], 1);
 
     auto e = c * m;
-    ASSERT_EQ(0, e.get_rows());
-    ASSERT_EQ(0, e.get_columns());
+    ASSERT_EQ(0, e.Rows());
+    ASSERT_EQ(0, e.Cols());
 }
 
 
 TEST(Matrix, Inverse) {
   Matrix<double> m(5, 5);
 
-  for (size_t i = 0; i < m.Rows(); ++i) {
-    for (size_t j = 0; j < m.Rows(); ++j) {
+  for (int i = 0; i < m.Rows(); ++i) {
+    for (int j = 0; j < m.Rows(); ++j) {
       m[i][j] = 1 + (i*j)%7;
-    }   
+    }
   }
 
   Matrix<double> I(5, 5);
-  for (size_t i = 0; i < m.Rows(); ++i) {
+  for (int i = 0; i < m.Rows(); ++i) {
     I[i][i] = 1.;
   }
 
